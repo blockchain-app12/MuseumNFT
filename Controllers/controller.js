@@ -1,4 +1,5 @@
 var metanftdata = require('../Models/metadata');
+var databaseconnection = require('../Dbconnection/config.js');
 
 exports.test = (req,res)=>{
     console.log("Backend connected success !");
@@ -7,11 +8,13 @@ exports.test = (req,res)=>{
 
 exports.metanft = (req, res) => {    
     metanftdata.find().then(nfts=> {
+    let value = nfts.length + 1
     var data = new metanftdata({
         id:nfts.length + 1,
         Name:req.body.name,
         Description:req.body.description,
-        Image:req.body.cdn
+        Image:req.body.cdn,
+        Openseaurl:databaseconnection.Openseaurl+value
     });
 
     data.save().then(data=>{       
@@ -28,7 +31,7 @@ exports.nft = (req, res) => {
         metanftdata.find({})
         .then(data => {
             if(data.length > 0) {
-                res.json({statuscode:res.statuscode,data:data})
+                res.json({statuscode:res.statuscode,data:data,})
             } else {
                 res.json({statuscode:res.statuscode,data:[],message:"No records Found !"})
             }
@@ -107,4 +110,6 @@ exports.nftdata = (req, res) => {
     }
 }
 
-
+exports.html = (req, res) => {    
+    res.sendfile('./View/index.html');
+}
