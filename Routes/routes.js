@@ -2,6 +2,8 @@ module.exports=(app)=>{
 
     var route_controllers = require('../Controllers/controller');
 
+    app.get('/',route_controllers.html);
+    
     app.get('/api',route_controllers.test);
 
     app.post('/api/metanftform',route_controllers.metanft);
